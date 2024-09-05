@@ -1,0 +1,57 @@
+iteration method
+
+#include <stdio.h>
+int iterationMethod(int n) {
+    int result = 0;
+    while (n > 1) {
+        result += n; // Accumulate the cost at each level
+        n /= 2; // Reduce n by half
+    }
+    return result + 1; // Add base case
+}
+
+int main() {
+    int n = 8; // Example input
+    printf("T(%d) = %d\n", n, iterationMethod(n));
+    return 0;
+}
+
+
+master theorem
+
+#include <stdio.h>
+int masterTheorem(int n) {
+    if (n <= 1) return 1; // Base case
+    return 2 * masterTheorem(n / 2) + n; // Recursive case
+}
+
+int main() {
+    int n = 8; // Example input
+    printf("T(%d) = %d\n", n, masterTheorem(n));
+    return 0;
+}
+
+
+substitution method
+
+#include <stdio.h>
+
+int substitutionMethod(int n) {
+    if (n <= 1) return 1; 
+    return 2 * substitutionMethod(n / 2) + n; 
+}
+
+void proveByInduction(int n) {
+    // Assuming T(n) = O(n log n)
+    // Base case: T(1) = 1
+    // Inductive step: Assume true for n/2
+    // T(n) = 2T(n/2) + n <= 2 * c(n/2) log(n/2) + n
+    // Simplifying gives us the desired result.
+}
+
+int main() {
+    int n = 8; 
+    printf("T(%d) = %d\n", n, substitutionMethod(n));
+    return 0;
+}
+
