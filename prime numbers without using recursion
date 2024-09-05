@@ -1,0 +1,15 @@
+def is_prime(num, divisor=None):
+    if num <= 1:
+        return False
+    if divisor is None:
+        divisor = num - 1
+    if divisor == 1:
+        return True
+    if num % divisor == 0:
+        return False
+    return is_prime(num, divisor - 1)
+num = 29  # Specify the number to check here
+if is_prime(num):
+    print(f"{num} is a prime number.")
+else:
+    print(f"{num} is not a prime number.")
