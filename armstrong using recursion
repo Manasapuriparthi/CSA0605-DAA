@@ -1,0 +1,16 @@
+def power(x, n):
+    if n == 0:
+        return 1
+    return x * power(x, n - 1)
+def sum_of_powers(num, power):
+    if num == 0:
+        return 0
+    return (num % 10) ** power + sum_of_powers(num // 10, power)
+def is_armstrong_number(num):
+        num_str = str(num)
+    power = len(num_str)  # Number of digits
+    return num == sum_of_powers(num, power)
+if is_armstrong_number(number):
+    print(f"{number} is an Armstrong number.")
+else:
+    print(f"{number} is not an Armstrong number.")
