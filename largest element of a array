@@ -1,0 +1,15 @@
+def find_largest_element(arr):
+        if not arr:
+        raise ValueError("Array is empty")
+        
+    largest = arr[0]
+       for num in arr:
+       
+        if num > largest:
+            largest = num
+            
+    return largest
+
+array = [int(x) for x in input("Enter numbers separated by spaces: ").split()]
+largest_element = find_largest_element(array)
+print(f"The largest element in the array is {largest_element}")
