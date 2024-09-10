@@ -1,0 +1,12 @@
+def remove_characters_v3(s):
+    stack = []
+    for char in s:
+        if char not in stack:
+            stack.append(char)
+        else:
+            stack.remove(char)
+    return ''.join(stack)
+
+initial_string = "aabcbbca"
+result = remove_characters_v3(initial_string)
+print(result)  # Output: "ba"
