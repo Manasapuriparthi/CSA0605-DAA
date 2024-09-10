@@ -1,0 +1,17 @@
+# Closest Points to Origin
+
+def kClosest(points, k):
+    def euclidean_distance(point):
+        return (point[0] * 2 + point[1] * 2) ** 0.5
+
+    distances = []
+    for point in points:
+        distances.append((euclidean_distance(point), point))
+
+    distances.sort(key=lambda x: x[0])
+    
+    return [distances[i][1] for i in range(k)]
+
+points = [[1, 3], [-2, 2], [5, 8], [0, 1]]
+k = 2
+print(kClosest(points, k))
