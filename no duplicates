@@ -1,0 +1,28 @@
+class TreeNode:
+    def _init_(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def constructMaximumBinaryTree(nums):
+    def build_tree(start, end):
+        if start > end:
+            return None
+        max_val = max(nums[start:end + 1])
+        max_index = nums.index(max_val, start, end + 1)
+        root = TreeNode(max_val)
+        root.left = build_tree(start, max_index - 1)
+        root.right = build_tree(max_index + 1, end)
+        
+        return root
+    return build_tree(0, len(nums) - 1)
+def print_tree(root):
+    if root is None:
+        return
+    print(root.val, end=' ')
+    print_tree(root.left)
+    print_tree(root.right)
+
+nums = [3, 2, 1, 6, 0, 5]
+root = constructMaximumBinaryTree(nums)
+print_tree(root)  # Output: 6 3 2 1 5 0
