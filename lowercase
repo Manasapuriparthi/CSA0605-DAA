@@ -1,0 +1,27 @@
+def replace_and_calculate_cost(s):
+  
+    s = list(s)
+    n = len(s)
+    
+    count = {chr(c): 0 for c in range(ord('a'), ord('z') + 1)}
+        for char in s:
+        if char != '?':
+            count[char] += 1
+  
+    for i in range(n):
+        if s[i] == '?':
+            # Find the character with the minimum count
+            min_char = min(count, key=count.get)
+            s[i] = min_char
+            count[min_char] += 1
+   
+    value = 0
+    seen_count = {chr(c): 0 for c in range(ord('a'), ord('z') + 1)}
+    
+    for char in s:
+        value += seen_count[char]
+        seen_count[char] += 1
+    
+    return value
+s = "a?b?c?"
+print(replace_and_calculate_cost(s))  # Output the minimized cost
