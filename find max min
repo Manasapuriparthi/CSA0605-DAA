@@ -1,0 +1,15 @@
+def find_max_min(arr):
+    if not arr:
+        raise ValueError("The array is empty")
+    max_val = min_val = arr[0]
+    for num in arr[1:]:
+        if num > max_val:
+            max_val = num
+        elif num < min_val:
+            min_val = num
+    
+    return max_val, min_val
+array = [3, 5, 1, 8, -2, 7]
+max_value, min_value = find_max_min(array)
+print("Maximum value:", max_value)  # Output: Maximum value: 8
+print("Minimum value:", min_value)  # Output: Minimum value: -2
