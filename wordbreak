@@ -1,0 +1,4 @@
+s = "leetcode"
+wordDict = ["leet", "code"]
+output = wordBreak(s, wordDict)
+print(output) 
