@@ -1,0 +1,18 @@
+def climbStairs(n):
+    if n <= 2:
+        return n
+    
+    # Initialize base cases
+    dp = [0] * (n + 1)
+    dp[1] = 1
+    dp[2] = 2
+    
+    # Compute the number of ways to reach each step from 3 to n
+    for i in range(3, n + 1):
+        dp[i] = dp[i - 1] + dp[i - 2]
+    
+    return dp[n]
+
+# Example usage
+print("Number of distinct ways to climb to the top for n=4:", climbStairs(4))  # Output: 5
+print("Number of distinct ways to climb to the top for n=3:", climbStairs(3))  # Output: 3
