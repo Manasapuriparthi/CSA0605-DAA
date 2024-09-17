@@ -1,0 +1,60 @@
+def greedy_coloring(graph):
+    """
+    Greedy coloring algorithm to color the graph with minimum number of colors.
+    Returns a list of colors assigned to each vertex.
+    """
+    n = len(graph)
+    result = [-1] * n  # Result stores the color assigned to each vertex
+    available = [True] * n  # Track availability of colors
+    
+    result[0] = 0  # Assign the first color to the first vertex
+    
+    for u in range(1, n):
+        available = [True] * n
+        
+        # Check colors of adjacent vertices and mark them as unavailable
+        for v in graph[u]:
+            if result[v] != -1:
+                available[result[v]] = False
+        
+        # Assign the first available color
+        color = 0
+        while color < n:
+            if available[color]:
+                result[u] = color
+                break
+            color += 1
+    
+    # Find the maximum color used
+    max_color = max(result)
+    return result, max_color + 1
+
+def maximum_colored_regions(graph):
+    """
+    Simulate the turn-based coloring strategy and return the maximum number of regions
+    the player can color.
+    """
+    n = len(graph)
+    colors, min_colors = greedy_coloring(graph)
+    
+    # Simulate turn-based coloring
+    colored = [False] * n
+    player_color_count = 0
+    alice_color_count = 0
+    bob_color_count = 0
+    
+    turn = 0
+    for i in range(n):
+        vertex = i
+        if not colored[vertex]:
+            if turn == 0:
+                player_color_count += 1
+            elif turn == 1:
+                alice_color_count += 1
+            else:
+                bob_color_count += 1
+            
+            colored[vertex] = True
+            # Color adjacent vertices to avoid conflict
+            for neighbor in graph[vertex]:
+             
