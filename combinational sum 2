@@ -1,0 +1,29 @@
+def combination_sum2(candidates, target):
+    def backtrack(start, target, path):
+        """
+        Backtracks to find all unique combinations that sum up to the target.
+        :param start: The starting index for the current recursion to avoid duplicates.
+        :param target: The remaining target sum.
+        :param path: The current combination of numbers being explored.
+        """
+        if target == 0:
+            # If the target is 0, we have found a valid combination
+            result.append(path)
+            return
+        if target < 0:
+            # If the target becomes negative, stop exploring this path
+            return
+        
+        for i in range(start, len(candidates)):
+            # To avoid duplicates, skip over the same number
+            if i > start and candidates[i] == candidates[i - 1]:
+                continue
+            # Include the candidate and move forward with the reduced target
+            backtrack(i + 1, target - candidates[i], path + [candidates[i]])
+    
+    # Sort the candidates to handle duplicates
+    candidates.sort()
+    result = []
+    backtrack(0, target, [])
+    return result
+
