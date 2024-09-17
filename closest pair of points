@@ -1,0 +1,33 @@
+import heapq
+
+def kClosest(points, k):
+    # Helper function to compute the squared distance from the origin
+    def squared_distance(point):
+        x, y = point
+        return x * x + y * y
+    
+    # Use a max-heap to keep track of the k closest points
+    max_heap = []
+    
+    for point in points:
+        # Compute the squared distance of the current point
+        dist = squared_distance(point)
+        
+        # Push the negative of the distance because heapq is a min-heap
+        heapq.heappush(max_heap, (-dist, point))
+        
+        # If we have more than k elements in the heap, pop the largest one
+        if len(max_heap) > k:
+            heapq.heappop(max_heap)
+    
+    # Extract the k closest points from the heap
+    return [point for (_, point) in max_heap]
+
+# Example usage
+points1 = [[1, 3], [-2, 2], [5, 8], [0, 1]]
+k1 = 2
+print("k closest points:", kClosest(points1, k1))  # Expected Output: [[-2, 2], [0, 1]]
+
+points2 = [[3, 3], [5, -1], [-2, 4]]
+k2 = 2
+print("k closest points:", kClosest(points2, k2))  # Expected Output: [[3, 3], [-2, 4]]
