@@ -1,0 +1,36 @@
+from collections import deque, defaultdict
+
+def game_result(graph):
+    n = len(graph)
+    dp = [[0] * n for _ in range(n)]
+    queue = deque()
+    
+    # Initialize the terminal states
+    for mouse in range(n):
+        for cat in range(n):
+            if mouse == 0:
+                dp[mouse][cat] = 1
+                queue.append((mouse, cat, 1))  # Mouse wins
+            elif mouse == cat:
+                dp[mouse][cat] = 2
+                queue.append((mouse, cat, 2))  # Cat wins
+    
+    # BFS to propagate the results
+    while queue:
+        mouse_pos, cat_pos, result = queue.popleft()
+        if result == 1:  # If Mouse wins from this state, update all predecessors
+            for prev_mouse in graph[mouse_pos]:
+                if dp[prev_mouse][cat_pos] == 0:
+                    if all(dp[neigh][cat_pos] in [1, 0] for neigh in graph[prev_mouse]):
+                        dp[prev_mouse][cat_pos] = 1
+                        queue.append((prev_mouse, cat_pos, 1))
+        elif result == 2:  # If Cat wins from this state, update all predecessors
+            for prev_cat in graph[cat_pos]:
+                if prev_cat != 0:  # Cat cannot move to the hole
+                    if dp[mouse_pos][prev_cat] == 0:
+                        if all(dp[mouse_pos][neigh] in [2, 0] for neigh in graph[cat_pos] if neigh != prev_cat):
+                            dp[mouse_pos][prev_cat] = 2
+                            queue.append((mouse_pos, prev_cat, 2))
+    
+   
+    return dp[1][2]
