@@ -1,0 +1,35 @@
+def min_containers(weights, capacity):
+    """
+    Determine the minimum number of containers required to load all items using a greedy approach.
+    
+    :param weights: List of item weights.
+    :param capacity: Maximum capacity of each container.
+    :return: Minimum number of containers required.
+    """
+    # Sort weights in descending order
+    weights.sort(reverse=True)
+    
+    # List to keep track of the remaining capacities of containers
+    containers = []
+    
+    for weight in weights:
+        placed = False
+        # Try to place the item in an existing container
+        for i in range(len(containers)):
+            if containers[i] >= weight:
+                containers[i] -= weight
+                placed = True
+                break
+        
+        # If item was not placed in any existing container, start a new container
+        if not placed:
+            containers.append(capacity - weight)
+    
+    return len(containers)
+
+# Example usage
+weights = [10, 15, 5, 20, 25]
+container_capacity = 30
+
+num_containers = min_containers(weights, container_capacity)
+print("Minimum number of containers required:", num_containers)
