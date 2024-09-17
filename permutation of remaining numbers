@@ -1,0 +1,20 @@
+def permute(nums):
+    def backtrack(path, remaining):
+        """
+        Backtracks to find all permutations of the remaining numbers.
+        :param path: The current permutation being built.
+        :param remaining: The numbers yet to be used.
+        """
+        if not remaining:
+            # If there are no remaining numbers, we have found a complete permutation
+            result.append(path)
+            return
+        
+        for i in range(len(remaining)):
+            # Choose the number at index i and continue with the remaining numbers
+            backtrack(path + [remaining[i]], remaining[:i] + remaining[i+1:])
+    
+    result = []
+    backtrack([], nums)
+    return result
+
