@@ -1,0 +1,48 @@
+class Node:
+    def __init__(self, char=None, freq=0):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
+    
+def decode_huffman_tree(root, encoded_string):
+    """
+    Decode a Huffman encoded string using the provided Huffman Tree.
+    
+    :param root: The root of the Huffman Tree.
+    :param encoded_string: The Huffman encoded string to decode.
+    :return: The original decoded message.
+    """
+    decoded_message = []
+    current_node = root
+    
+    for bit in encoded_string:
+        if bit == '0':
+            current_node = current_node.left
+        elif bit == '1':
+            current_node = current_node.right
+        
+        # If it's a leaf node, add the character to the decoded message
+        if current_node.left is None and current_node.right is None:
+            decoded_message.append(current_node.char)
+            # Reset to the root for the next character
+            current_node = root
+    
+    return ''.join(decoded_message)
+
+# Example Huffman Tree Construction
+def build_example_huffman_tree():
+    # Manually constructing a Huffman Tree for demonstration purposes
+    # (Example Huffman Tree construction - for educational purposes)
+    root = Node()
+    root.left = Node('a')
+    root.right = Node()
+    root.right.left = Node('b')
+    root.right.right = Node('c')
+    return root
+
+# Example Usage
+huffman_tree = build_example_huffman_tree()
+encoded_string = '01011'  # Encoded string example
+decoded_message = decode_huffman_tree(huffman_tree, encoded_string)
+print("Decoded Message:", decoded_message)
