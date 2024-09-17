@@ -1,0 +1,48 @@
+import heapq
+
+def prims_algorithm(graph, start_vertex):
+    """
+    Find the Minimum Spanning Tree (MST) using Prim's Algorithm.
+
+    :param graph: Dictionary of adjacency lists where keys are vertex labels and values are lists of tuples (neighbor, weight).
+    :param start_vertex: The vertex to start the algorithm from.
+    :return: A tuple (mst_cost, mst_edges) where mst_cost is the total cost of the MST and mst_edges is a list of edges in the MST.
+    """
+    # Priority queue to select the edge with the minimum weight
+    min_heap = []
+    # Dictionary to track the minimum cost to add each vertex to the MST
+    min_cost = {vertex: float('inf') for vertex in graph}
+    min_cost[start_vertex] = 0
+    # Track vertices included in the MST
+    included = set()
+    # To store the edges of the MST
+    mst_edges = []
+    mst_cost = 0
+
+    # Start with the initial vertex
+    heapq.heappush(min_heap, (0, start_vertex))
+
+    while min_heap:
+        # Get the vertex with the smallest edge cost
+        cost, u = heapq.heappop(min_heap)
+
+        if u in included:
+            continue
+
+        # Include this vertex in the MST
+        included.add(u)
+        mst_cost += cost
+
+        # Store the edge in the MST
+        if cost > 0:
+            mst_edges.append((prev_vertex, u, cost))
+
+        # Update the min_heap with the cost to connect new vertices
+        for neighbor, weight in graph[u]:
+            if neighbor not in included and weight < min_cost[neighbor]:
+                min_cost[neighbor] = weight
+                heapq.heappush(min_heap, (weight, neighbor))
+                prev_vertex = u
+
+    return mst_cost, mst_edges
+
