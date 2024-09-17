@@ -1,0 +1,46 @@
+def median_of_medians(arr, k):
+    def partition(arr, low, high, pivot_index):
+        pivot = arr[pivot_index]
+        arr[pivot_index], arr[high] = arr[high], arr[pivot_index]
+        store_index = low
+        for i in range(low, high):
+            if arr[i] < pivot:
+                arr[store_index], arr[i] = arr[i], arr[store_index]
+                store_index += 1
+        arr[store_index], arr[high] = arr[high], arr[store_index]
+        return store_index
+
+    def find_median_of_medians(arr, low, high):
+        sublists = [arr[i:i+5] for i in range(low, high + 1, 5)]
+        medians = [sorted(sublist)[len(sublist) // 2] for sublist in sublists]
+        if len(medians) <= 5:
+            median_of_medians = sorted(medians)[len(medians) // 2]
+        else:
+            median_of_medians = find_median_of_medians(medians, 0, len(medians) - 1)
+        return median_of_medians
+
+    def select(arr, low, high, k):
+        if low == high:
+            return arr[low]
+
+        pivot_value = find_median_of_medians(arr, low, high)
+        pivot_index = arr.index(pivot_value)
+        pivot_index = partition(arr, low, high, pivot_index)
+
+        if k == pivot_index:
+            return arr[k]
+        elif k < pivot_index:
+            return select(arr, low, pivot_index - 1, k)
+        else:
+            return select(arr, pivot_index + 1, high, k)
+
+    return select(arr, 0, len(arr) - 1, k - 1)
+
+# Example usage
+arr1 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+k1 = 6
+print("k-th smallest element:", median_of_medians(arr1, k1))  # Expected Output: 6
+
+arr2 = [23, 17, 31, 44, 55, 21, 20, 18, 19, 27]
+k2 = 5
+print("k-th smallest element:", median_of_medians(arr2, k2))  # Expected Output: 23
