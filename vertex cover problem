@@ -1,0 +1,40 @@
+def greedy_vertex_cover(edges, num_vertices):
+    """
+    Find a vertex cover using a greedy approximation algorithm.
+    
+    :param edges: List of edges where each edge is a tuple (u, v).
+    :param num_vertices: Number of vertices in the graph.
+    :return: A list of vertices that form the vertex cover.
+    """
+    # Initialize the vertex cover set
+    vertex_cover = set()
+    
+    # Create a set of edges
+    edge_set = set(edges)
+    
+    # Process edges
+    while edge_set:
+        # Choose an arbitrary edge from the edge set
+        u, v = edge_set.pop()
+        
+        # Add both endpoints of the edge to the vertex cover
+        vertex_cover.add(u)
+        vertex_cover.add(v)
+        
+        # Remove all edges incident to either u or v
+        edge_set = {e for e in edge_set if u not in e and v not in e}
+    
+    return list(vertex_cover)
+
+# Example usage
+edges = [
+    (0, 1),
+    (1, 2),
+    (2, 3),
+    (3, 0),
+    (0, 2)
+]
+num_vertices = 4  # Number of vertices in the graph
+
+vertex_cover = greedy_vertex_cover(edges, num_vertices)
+print("Vertex Cover:", vertex_cover)
