@@ -1,0 +1,35 @@
+from itertools import combinations
+
+def generate_subset_sums(arr):
+    """Generate all possible subset sums for a given array."""
+    subset_sums = set()
+    for r in range(len(arr) + 1):
+        for combo in combinations(arr, r):
+            subset_sums.add(sum(combo))
+    return subset_sums
+
+def subset_sum_exists(arr, target):
+    """Determine if there is a subset with an exact sum equal to target using the Meet in the Middle technique."""
+    # Split the array into two halves
+    mid = len(arr) // 2
+    left_half = arr[:mid]
+    right_half = arr[mid:]
+    
+    # Generate all subset sums for both halves
+    left_sums = generate_subset_sums(left_half)
+    right_sums = generate_subset_sums(right_half)
+    
+    # Check if there exists a pair of sums (one from each half) that adds up to the target
+    for left_sum in left_sums:
+        if (target - left_sum) in right_sums:
+            return True
+    return False
+
+# Example usage
+E1 = [1, 3, 9, 2, 7, 12]
+target1 = 15
+print("Subset with exact sum for E1:", subset_sum_exists(E1, target1))  # Output: True
+
+E2 = [3, 34, 4, 12, 5, 2]
+target2 = 15
+print("Subset with exact sum for E2:", subset_sum_exists(E2, target2))  # Output: True
