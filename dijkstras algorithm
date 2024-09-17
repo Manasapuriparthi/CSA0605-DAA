@@ -1,0 +1,65 @@
+import heapq
+
+def dijkstra(graph, source):
+    """
+    Implements Dijkstra's Algorithm to find the shortest path from the source vertex to all other vertices.
+    
+    :param graph: List of lists (adjacency matrix) where graph[i][j] represents the weight of the edge from vertex i to vertex j.
+    :param source: The source vertex from which shortest paths are calculated.
+    :return: A tuple containing the list of shortest distances from the source to each vertex and the list of previous nodes in the shortest path.
+    """
+    n = len(graph)  # Number of vertices
+    distances = [float('inf')] * n
+    previous = [None] * n
+    distances[source] = 0
+    min_heap = [(0, source)]  # (distance, vertex)
+
+    while min_heap:
+        current_distance, u = heapq.heappop(min_heap)
+        
+        # If the current distance is greater than the recorded distance, skip
+        if current_distance > distances[u]:
+            continue
+        
+        # Update distances for neighboring vertices
+        for v in range(n):
+            if graph[u][v] != float('inf'):
+                distance = graph[u][v]
+                if distances[u] + distance < distances[v]:
+                    distances[v] = distances[u] + distance
+                    previous[v] = u
+                    heapq.heappush(min_heap, (distances[v], v))
+    
+    return distances, previous
+
+def print_shortest_paths(distances, previous, source):
+    """
+    Print the shortest paths from the source vertex to all other vertices.
+    
+    :param distances: List of shortest distances from the source to each vertex.
+    :param previous: List of previous nodes in the shortest path.
+    :param source: The source vertex.
+    """
+    n = len(distances)
+    for i in range(n):
+        path = []
+        j = i
+        while j is not None:
+            path.append(j)
+            j = previous[j]
+        path.reverse()
+        print(f"Shortest path from {source} to {i}: {path} with distance {distances[i]}")
+
+# Example usage
+graph = [
+    [0, 7, float('inf'), float('inf'), float('inf'), 15],
+    [7, 0, 6, float('inf'), float('inf'), 5],
+    [float('inf'), 6, 0, 10, 9, float('inf')],
+    [float('inf'), float('inf'), 10, 0, 3, float('inf')],
+    [float('inf'), float('inf'), 9, 3, 0, 4],
+    [15, 5, float('inf'), float('inf'), 4, 0]
+]
+
+source = 0
+distances, previous = dijkstra(graph, source)
+print_shortest_paths(distances, previous, source)
