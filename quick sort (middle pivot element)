@@ -1,0 +1,29 @@
+def quick_sort(arr, low, high):
+    if low < high:
+        # Find the pivot index and partition the array
+        pivot_index = partition(arr, low, high)
+        # Display the array after partitioning
+        print(f"Array after partitioning with pivot {arr[pivot_index]}: {arr}")
+        # Recursively apply Quick Sort to the sub-arrays
+        quick_sort(arr, low, pivot_index - 1)
+        quick_sort(arr, pivot_index + 1, high)
+
+def partition(arr, low, high):
+    # Choosing the middle element as pivot
+    mid = (low + high) // 2
+    pivot = arr[mid]
+    # Move the pivot to the end for partitioning
+    arr[mid], arr[high] = arr[high], arr[mid]
+    pivot_index = high
+    left = low
+    
+    for right in range(low, high):
+        if arr[right] < pivot:
+            arr[left], arr[right] = arr[right], arr[left]
+            left += 1
+    
+    # Place the pivot in its correct position
+    arr[left], arr[pivot_index] = arr[pivot_index], arr[left]
+    
+    return left
+
