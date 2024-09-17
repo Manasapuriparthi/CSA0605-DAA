@@ -1,0 +1,26 @@
+def subsets_with_duplicates(S):
+    def backtrack(start, path):
+        # Append the current subset to the results
+        result.append(path[:])
+        
+        # Explore further subsets
+        for i in range(start, len(S)):
+            # Skip duplicates
+            if i > start and S[i] == S[i - 1]:
+                continue
+            # Include S[i] in the current subset
+            path.append(S[i])
+            # Recur to generate subsets including S[i]
+            backtrack(i + 1, path)
+            # Exclude S[i] from the current subset
+            path.pop()
+    
+    # Sort the input to handle duplicates and to ensure lexicographical order
+    S.sort()
+    result = []
+    backtrack(0, [])
+    return result
+
+# Example usage
+S = [1, 2, 2]
+print(subsets_with_duplicates(S))
