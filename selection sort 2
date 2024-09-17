@@ -1,0 +1,22 @@
+def selection_sort(arr):
+    """
+    Perform in-place selection sort on the given list.
+    
+    :param arr: List of elements to be sorted.
+    :return: The sorted list.
+    """
+    n = len(arr)
+    for i in range(n):
+        # Assume the minimum is the first element in the unsorted portion
+        min_index = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        # Swap the found minimum element with the first unsorted element
+        arr[i], arr[min_index] = arr[min_index], arr[i]
+    return arr
+
+# Example usage
+example_list = [64, 25, 12, 22, 11]
+sorted_list = selection_sort(example_list)
+print("Sorted List:", sorted_list)
