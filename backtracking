@@ -1,0 +1,24 @@
+def subsets_with_element(E, x):
+    def backtrack(start, path):
+        # Add the current subset to the results
+        if x in path:
+            result.append(path[:])
+        
+        # Generate all subsets starting from the current index
+        for i in range(start, len(E)):
+            # Include E[i] in the current subset
+            path.append(E[i])
+            # Recursively generate subsets including E[i]
+            backtrack(i + 1, path)
+            # Exclude E[i] from the current subset
+            path.pop()
+    
+    result = []
+    E.sort()  # Optional: Sort to ensure lexicographical order
+    backtrack(0, [])
+    return result
+
+# Example usage
+E = [2, 3, 4, 5]
+x = 3
+print(subsets_with_element(E, x))
