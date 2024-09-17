@@ -1,0 +1,59 @@
+import heapq
+
+def dijkstra_from_edge_list(edge_list, n, source, target):
+    """
+    Implements Dijkstra's Algorithm to find the shortest path from the source vertex to the target vertex.
+    
+    :param edge_list: List of tuples (u, v, w) where u and v are vertices and w is the weight of the edge from u to v.
+    :param n: The number of vertices in the graph.
+    :param source: The source vertex.
+    :param target: The target vertex.
+    :return: The shortest distance from the source to the target vertex.
+    """
+    # Convert edge list to adjacency list
+    graph = [[] for _ in range(n)]
+    for u, v, w in edge_list:
+        graph[u].append((v, w))
+        graph[v].append((u, w))  # If the graph is undirected, include this line; otherwise, remove it.
+    
+    # Initialize distances and priority queue
+    distances = [float('inf')] * n
+    distances[source] = 0
+    min_heap = [(0, source)]  # (distance, vertex)
+    
+    while min_heap:
+        current_distance, u = heapq.heappop(min_heap)
+        
+        if u == target:
+            return current_distance
+        
+        # If the current distance is greater than the recorded distance, skip
+        if current_distance > distances[u]:
+            continue
+        
+        # Update distances for neighboring vertices
+        for v, weight in graph[u]:
+            distance = current_distance + weight
+            if distance < distances[v]:
+                distances[v] = distance
+                heapq.heappush(min_heap, (distance, v))
+    
+    return -1  # If there's no path from source to target
+
+# Example usage
+edge_list = [
+    (0, 1, 7),
+    (1, 2, 6),
+    (2, 3, 10),
+    (3, 4, 3),
+    (4, 5, 4),
+    (5, 0, 15),
+    (1, 5, 5),
+    (2, 4, 9)
+]
+n = 6  # Number of vertices in the graph
+source = 0
+target = 4
+
+shortest_distance = dijkstra_from_edge_list(edge_list, n, source, target)
+print("Shortest distance from {} to {}: {}".format(source, target, shortest_distance))  # Expected Output: Shortest distance
