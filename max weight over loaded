@@ -1,0 +1,27 @@
+def max_weight_loaded(weights, capacity):
+    """
+    Determine the maximum weight that can be loaded into the container using a greedy approach.
+    
+    :param weights: List of item weights.
+    :param capacity: Maximum capacity of the container.
+    :return: Maximum weight that can be loaded into the container.
+    """
+    # Sort the weights in descending order
+    weights.sort(reverse=True)
+    
+    total_weight = 0
+    
+    for weight in weights:
+        if total_weight + weight <= capacity:
+            total_weight += weight
+        else:
+            break
+    
+    return total_weight
+
+# Example usage
+weights = [10, 15, 5, 20, 25]
+capacity = 50
+
+max_weight = max_weight_loaded(weights, capacity)
+print("Maximum weight that can be loaded into the container:", max_weight)
