@@ -1,0 +1,52 @@
+import numpy as np
+
+def optimal_bst(keys, frequencies):
+    n = len(keys)
+    
+    # Cost and root tables
+    cost = np.zeros((n, n))
+    root = np.zeros((n, n), dtype=int)
+    
+    # Sum of frequencies
+    sum_freq = np.zeros((n, n))
+    for i in range(n):
+        sum_freq[i][i] = frequencies[i]
+        for j in range(i + 1, n):
+            sum_freq[i][j] = sum_freq[i][j - 1] + frequencies[j]
+    
+    # Initialize the cost for single keys
+    for i in range(n):
+        cost[i][i] = frequencies[i]
+        root[i][i] = i
+    
+    # Fill the tables
+    for length in range(2, n + 1):  # length of the subproblem
+        for i in range(n - length + 1):
+            j = i + length - 1
+            cost[i][j] = float('inf')
+            for r in range(i, j + 1):
+                c = (cost[i][r - 1] if r > i else 0) + \
+                    (cost[r + 1][j] if r < j else 0) + \
+                    sum_freq[i][j]
+                if c < cost[i][j]:
+                    cost[i][j] = c
+                    root[i][j] = r
+    
+    return cost, root
+
+def print_optimal_bst(keys, cost, root, frequencies):
+    def print_tree(i, j, level=0):
+        if i <= j:
+            r = root[i][j]
+            print(' ' * level * 2, f'Root: {keys[r]}, Frequency: {frequencies[r]}, Cost: {cost[i][j]}')
+            print_tree(i, r - 1, level + 1)
+            print_tree(r + 1, j, level + 1)
+    
+    print("Cost Matrix:")
+    print(cost)
+    print("Root Matrix:")
+    print(root)
+    print("\nOptimal Binary Search Tree Structure:")
+    print_tree(0, len(keys) - 1)
+
+
