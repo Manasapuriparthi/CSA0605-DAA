@@ -1,0 +1,36 @@
+def bubble_sort(arr):
+    """
+    Perform in-place bubble sort on the given list with early termination.
+
+    :param arr: List of elements to be sorted.
+    :return: The sorted list.
+    """
+    n = len(arr)
+    for i in range(n):
+        # Flag to detect if any swaps are made during this pass
+        swapped = False
+        
+        # Perform the pass, swapping adjacent elements if needed
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+                swapped = True
+        
+        # If no elements were swapped, the list is sorted
+        if not swapped:
+            break
+    
+    return arr
+
+# Example usage
+example_list1 = [64, 25, 12, 22, 11]
+sorted_list1 = bubble_sort(example_list1)
+print("Sorted List 1:", sorted_list1)
+
+example_list2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+sorted_list2 = bubble_sort(example_list2)
+print("Sorted List 2:", sorted_list2)
+
+example_list3 = [23, 17, 31, 44, 55, 21, 20, 18, 19, 27]
+sorted_list3 = bubble_sort(example_list3)
+print("Sorted List 3:", sorted_list3)
